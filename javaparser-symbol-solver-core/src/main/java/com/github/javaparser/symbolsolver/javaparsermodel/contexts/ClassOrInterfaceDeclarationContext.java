@@ -65,6 +65,10 @@ public class ClassOrInterfaceDeclarationContext extends AbstractJavaParserContex
             return SymbolReference.solved(this.getDeclaration().getVisibleField(name));
         }
 
+        if (this.getDeclaration().hasInternalType(name)) {
+            return SymbolReference.solved(this.getDeclaration().getInternalType(name));
+        }
+
         // then to parent
         return solveSymbolInParentContext(name);
     }

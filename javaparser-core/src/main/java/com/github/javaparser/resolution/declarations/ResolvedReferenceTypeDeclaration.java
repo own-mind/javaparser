@@ -23,6 +23,7 @@ package com.github.javaparser.resolution.declarations;
 import com.github.javaparser.ast.AccessSpecifier;
 import com.github.javaparser.resolution.MethodUsage;
 import com.github.javaparser.resolution.UnsolvedSymbolException;
+import com.github.javaparser.resolution.model.typesystem.ReferenceTypeImpl;
 import com.github.javaparser.resolution.types.ResolvedReferenceType;
 import com.github.javaparser.resolution.types.ResolvedType;
 import java.io.Serializable;
@@ -33,7 +34,8 @@ import java.util.stream.Collectors;
 /**
  * @author Federico Tomassetti
  */
-public interface ResolvedReferenceTypeDeclaration extends ResolvedTypeDeclaration, ResolvedTypeParametrizable {
+public interface ResolvedReferenceTypeDeclaration
+        extends ResolvedTypeDeclaration, ResolvedTypeParametrizable, ResolvedValueDeclaration {
 
     String JAVA_LANG_ENUM = java.lang.Enum.class.getCanonicalName();
 
@@ -395,5 +397,10 @@ public interface ResolvedReferenceTypeDeclaration extends ResolvedTypeDeclaratio
      */
     default boolean isJavaLangRecord() {
         return this.isRecord() && JAVA_LANG_RECORD.equals(getQualifiedName());
+    }
+
+    @Override
+    default ResolvedType getType() {
+        return new ReferenceTypeImpl(this);
     }
 }
